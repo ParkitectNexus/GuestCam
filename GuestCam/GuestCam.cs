@@ -24,7 +24,7 @@ namespace GuestCam
                     EnterGuest(guest);
                 }
             }
-            else if(_isInGuest && (Input.GetKeyUp(KeyCode.O) || Input.GetKeyUp(KeyCode.Escape)))
+            else if (_isInGuest && (Input.GetKeyUp(KeyCode.O) || Input.GetKeyUp(KeyCode.Escape)))
             {
                 LeaveGuest();
             }
@@ -55,7 +55,7 @@ namespace GuestCam
             NotificationBar.Instance.addNotification(message).openInfoWindowOf = guest;
             
             _guestCam = new GameObject();
-            _guestCam.AddComponent<Camera>().nearClipPlane = 0.0005f;
+            _guestCam.AddComponent<Camera>().nearClipPlane = 0.05f;
             _guestCam.AddComponent<AudioListener>();
             _guestCam.transform.parent = guest.head.transform;
             _guestCam.transform.localPosition = new Vector3(-0.09f, -0.13f, 0);

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Parkitect.UI;
+using UnityEngine;
 
 namespace GuestCam
 {
@@ -10,6 +11,7 @@ namespace GuestCam
 
         public void onEnabled()
         {
+            //NotificationBar.Instance.addNotification("enabled!");
             if (_gameObject != null)
                 return;
 

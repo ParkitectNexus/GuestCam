@@ -1,1 +1,8 @@
-{"AssetBundleDir":null,"AssetBundlePrefix":null,"BaseDir":"GuestCam","CompilerVersion":"v4.0","CodeFiles":[],"BuildPath":"bin/build-150928111016.dll","EntryPoint":"GuestCam.Main","IsDevelopment":true,"IsEnabled":true,"Name":"GuestCam","Project":"GuestCam.csproj","Tag":null,"ReferencedAssemblies":[],"Repository":null}
+{
+	"BaseDir": "GuestCam",
+	"CodeFiles": [],
+	"EntryPoint": "GuestCam.Main",
+	"IsDevelopment": true,
+	"Name": "GuestCam",
+	"Project": "GuestCam.csproj"
+}
