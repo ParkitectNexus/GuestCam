@@ -1,6 +1,5 @@
 {
 	"BaseDir": "GuestCam",
-	"CodeFiles": [],
 	"EntryPoint": "GuestCam.Main",
 	"IsDevelopment": true,
 	"Name": "GuestCam",
