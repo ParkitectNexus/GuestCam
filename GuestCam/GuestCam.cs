@@ -35,15 +35,17 @@ namespace GuestCam
             LeaveGuest();
         }
 
-        private Guest GuestUnderMouse()
+        private static Guest GuestUnderMouse()
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            float distance;
 
+            var obj = Collisions.Instance.checkSelectables(ray, out distance);
             RaycastHit hit;
 
-            return Physics.Raycast(ray, out hit, Mathf.Infinity)
-                ? hit.transform.gameObject.GetComponentInParent<Guest>()
-                : null;
+            if (Physics.Raycast(ray, out hit, distance, LayerMasks.MOUSECOLLIDERS))
+                obj = hit.collider.gameObject;
+            return obj != null ? obj.GetComponentInParent<Guest>() : null;
         }
 
         private void EnterGuest(Guest guest)
@@ -53,7 +55,8 @@ namespace GuestCam
 
             var message = string.Format("You are now following {0} {1}.", guest.forename, guest.surname);
             NotificationBar.Instance.addNotification(message).openInfoWindowOf = guest;
-            
+            UIWorldOverlayController.Instance.gameObject.SetActive(false);
+            Camera.main.GetComponent < CameraController>().enabled = false;
             _guestCam = new GameObject();
             _guestCam.AddComponent<Camera>().nearClipPlane = 0.05f;
             _guestCam.AddComponent<AudioListener>();
@@ -68,7 +71,10 @@ namespace GuestCam
         {
             if (!_isInGuest)
                 return;
-            
+
+            UIWorldOverlayController.Instance.gameObject.SetActive(true);
+            Camera.main.GetComponent<CameraController>().enabled = true;
+
             Destroy(_guestCam);
             
             _isInGuest = false;
