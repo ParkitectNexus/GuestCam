@@ -34,6 +34,8 @@ namespace GuestCam
         {
             get { return Name; }
         }
+        
+        public string Identifier { get; set; }
 
         #endregion
     }
