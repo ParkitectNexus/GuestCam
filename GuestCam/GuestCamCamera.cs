@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace GuestCam
 {
-    public class GuestCam : MonoBehaviour
+    public class GuestCamCamera : MonoBehaviour
     {
-        private GameObject _guestCam; 
+        private GameObject _camera; 
         private bool _isInGuest;
         
         private void Awake()
@@ -52,19 +52,20 @@ namespace GuestCam
         {
             if (_isInGuest)
                 return;
-
-            var message = string.Format("You are now following {0} {1}.", guest.forename, guest.surname);
-            NotificationBar.Instance.addNotification(message).openInfoWindowOf = guest;
+            
             UIWorldOverlayController.Instance.gameObject.SetActive(false);
-            Camera.main.GetComponent < CameraController>().enabled = false;
-            _guestCam = new GameObject();
-            _guestCam.AddComponent<Camera>().nearClipPlane = 0.05f;
-            _guestCam.AddComponent<AudioListener>();
-            _guestCam.transform.parent = guest.head.transform;
-            _guestCam.transform.localPosition = new Vector3(-0.09f, -0.13f, 0);
-            _guestCam.transform.localRotation = Quaternion.Euler(90, 0, 90);
+            Camera.main.GetComponent<CameraController>().enabled = false;
+
+            _camera = new GameObject();
+            _camera.AddComponent<Camera>().nearClipPlane = 0.05f;
+            _camera.AddComponent<AudioListener>();
+            _camera.transform.parent = guest.head.transform;
+            _camera.transform.localPosition = new Vector3(-0.09f, -0.13f, 0);
+            _camera.transform.localRotation = Quaternion.Euler(90, 0, 90);
             
             _isInGuest = true;
+
+            ApplySettings();
         }
 
         private void LeaveGuest()
@@ -75,9 +76,19 @@ namespace GuestCam
             UIWorldOverlayController.Instance.gameObject.SetActive(true);
             Camera.main.GetComponent<CameraController>().enabled = true;
 
-            Destroy(_guestCam);
+            Destroy(_camera);
             
             _isInGuest = false;
+        }
+
+        public void ApplySettings()
+        {
+            if (!_isInGuest)
+                return;
+
+            var settings = GetComponent<GuestCamSettings>();
+
+            _camera.transform.localPosition = new Vector3(settings.CameraHeight, settings.CameraDistance, _camera.transform.localPosition.z);
         }
     }
 }
